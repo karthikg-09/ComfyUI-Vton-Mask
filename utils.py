@@ -16,11 +16,9 @@ def resize_image(image, target_size=768):
 
 def tensor_to_pil(tensor_image):
     """Convert tensor to PIL image"""
+    # Handle ComfyUI format (batch, height, width, channels)
     if tensor_image.dim() == 4:
         tensor_image = tensor_image.squeeze(0)
-    
-    if tensor_image.dim() == 3 and tensor_image.shape[0] == 3:
-        tensor_image = tensor_image.permute(1, 2, 0)
     
     # Convert to numpy and scale to 0-255
     np_image = tensor_image.cpu().numpy()
@@ -32,7 +30,7 @@ def tensor_to_pil(tensor_image):
     return Image.fromarray(np_image)
 
 def pil_to_tensor(pil_image):
-    """Convert PIL image to tensor"""
+    """Convert PIL image to tensor in ComfyUI format (batch, height, width, channels)"""
     np_image = np.array(pil_image)
     
     # Ensure 3 channels
@@ -45,10 +43,8 @@ def pil_to_tensor(pil_image):
     if np_image.dtype == np.uint8:
         np_image = np_image.astype(np.float32) / 255.0
     
-    # Convert to tensor and rearrange dimensions
+    # Convert to tensor - ComfyUI expects (batch, height, width, channels)
     tensor = torch.from_numpy(np_image)
-    if tensor.dim() == 3:
-        tensor = tensor.permute(2, 0, 1)
     
-    # Add batch dimension
+    # Add batch dimension: (height, width, channels) -> (1, height, width, channels)
     return tensor.unsqueeze(0) 
