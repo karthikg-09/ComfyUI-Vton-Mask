@@ -1,0 +1,15 @@
+[project]
+name = "vton-mask"
+description = "A lightweight ComfyUI custom node for generating high-quality masks and pose detection for virtual try-on applications. This node extracts only the essential masking functionality from FitDiT without requiring heavy diffusion models."
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["torch>=1.9.0", "torchvision>=0.10.0", "numpy>=1.21.0", "opencv-python>=4.5.0", "scikit-image>=0.18.0", "onnxruntime>=1.8.0", "transformers>=4.20.0", "Pillow>=8.0.0", "tqdm>=4.62.0", "huggingface_hub>=0.16.0"]
+
+[project.urls]
+Repository = "https://github.com/karthikg-09/ComfyUI-Vton-Mask"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-Vton-Mask"
+Icon = ""
